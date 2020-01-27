@@ -1,53 +1,24 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    ft_strcmp.s                                        :+:      :+:    :+:    #
+#    ft_write.s                                         :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: msukhare <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/01/27 18:30:41 by msukhare          #+#    #+#              #
-#    Updated: 2020/01/27 18:30:44 by msukhare         ###   ########.fr        #
+#    Created: 2020/01/27 18:31:28 by msukhare          #+#    #+#              #
+#    Updated: 2020/01/27 20:14:12 by msukhare         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-global		_ft_strcmp
-extern		_ft_strlen
+global		_ft_write
 
 section		.text
 
-_ft_strcmp:
+_ft_write:
 	push	rbp
 	mov	rbp, rsp
-	push	rdi
-	push	rsi
-	call	_ft_strlen
-	mov	r9, rax
-	mov	rdi, [rbp - 16]
-	call	_ft_strlen
-	mov	r10, rax
-	cmp	r9, r10
-	jle	s_one_inf
-	jge	s_one_sup
-
-s_one_inf:
-	mov	rcx, r10
-	jmp	end
-
-s_one_sup:
-	mov	rcx, r9
-	jmp	end
-
-end:
-	mov	rdi, [rbp - 8]
-	mov	rsi, [rbp - 16]
-	repe	cmpsb
-	dec	rdi
-	dec	rsi
-	mov	byte al, [rdi]
-	sub	al, [rsi]
-	movsx	eax, al
-	pop	rsi
-	pop	rdi
+	mov	rax, 0x2000004
+	syscall
 	mov	rsp, rbp
 	pop	rbp
 	ret
