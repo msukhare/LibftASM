@@ -6,7 +6,7 @@
 #    By: msukhare <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/27 18:59:22 by msukhare          #+#    #+#              #
-#    Updated: 2020/01/27 20:13:01 by msukhare         ###   ########.fr        #
+#    Updated: 2020/01/28 16:14:52 by msukhare         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,14 @@ _ft_read:
 	mov	rbp, rsp
 	mov	rax, 0x2000003
 	syscall
+	jc	fail
+	jmp	epilogue
+
+fail:
+	mov	rax, -1
+	jmp	epilogue
+
+epilogue:
 	mov	rsp, rbp
 	pop	rbp
 	ret
