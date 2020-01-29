@@ -7,6 +7,8 @@ SRC_NAME =	ft_strlen.s \
 		ft_write.s\
 		ft_read.s\
 		ft_strdup.s\
+		ft_list_size.s\
+		ft_list_push_front.s\
 
 
 OBJ_PATH = obj/

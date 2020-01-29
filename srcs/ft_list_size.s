@@ -1,48 +1,40 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    ft_strdup.s                                        :+:      :+:    :+:    #
+#    ft_list_size.s                                     :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: msukhare <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/01/28 17:18:20 by msukhare          #+#    #+#              #
-#    Updated: 2020/01/29 13:57:19 by msukhare         ###   ########.fr        #
+#    Created: 2020/01/29 13:51:09 by msukhare          #+#    #+#              #
+#    Updated: 2020/01/29 14:33:39 by msukhare         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-global		_ft_strdup
-extern		_ft_strlen
-extern		_malloc
-extern		_ft_strcpy
+global		_ft_list_size
 
 section		.text
 
-_ft_strdup:
+_ft_list_size:
 	push	rbp
 	mov	rbp, rsp
-	sub	rsp, 8
-	push	rdi
+
 	test	rdi, rdi
-	jz	return_null
-	call	_ft_strlen
-	inc	rax
-	mov	rdi, rax
-	call	_malloc
-	test	rax, rax
-	jz	return_null
-	pop	rdi
-	mov	rsi, rdi
-	mov	rdi, rax
-	call	_ft_strcpy
+	jz	null_return
+
+	mov	rcx, 0
+	loop:
+		inc	rcx
+		mov	rdi, [rdi + 8]
+		test	rdi, rdi
+		jnz	loop
+	mov	rax, rcx
 	jmp	epilogue
 
-return_null:
+null_return:
 	mov	rax, 0
-	pop	rdi
 	jmp	epilogue
 
 epilogue:
-	add	rsp, 8
 	mov	rsp, rbp
 	pop	rbp
 	ret

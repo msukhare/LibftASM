@@ -1,48 +1,52 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    ft_strdup.s                                        :+:      :+:    :+:    #
+#    ft_list_push_front.s                               :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: msukhare <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/01/28 17:18:20 by msukhare          #+#    #+#              #
-#    Updated: 2020/01/29 13:57:19 by msukhare         ###   ########.fr        #
+#    Created: 2020/01/29 14:34:35 by msukhare          #+#    #+#              #
+#    Updated: 2020/01/29 15:41:33 by msukhare         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-global		_ft_strdup
-extern		_ft_strlen
+global		_ft_list_push_front
 extern		_malloc
-extern		_ft_strcpy
 
 section		.text
 
-_ft_strdup:
+_ft_list_push_front:
 	push	rbp
-	mov	rbp, rsp
-	sub	rsp, 8
+	mov		rbp, rsp
+	sub		rsp, 16
+
+	push	rsi
 	push	rdi
+
 	test	rdi, rdi
-	jz	return_null
-	call	_ft_strlen
-	inc	rax
-	mov	rdi, rax
+	jz		epilogue
+
+	mov		rdi, 16
 	call	_malloc
 	test	rax, rax
-	jz	return_null
-	pop	rdi
-	mov	rsi, rdi
-	mov	rdi, rax
-	call	_ft_strcpy
-	jmp	epilogue
+	jz		fail_malloc
 
-return_null:
-	mov	rax, 0
-	pop	rdi
-	jmp	epilogue
+	pop		rdi
+	pop		rsi
+	mov		[rax], rsi
+	mov		r8, [rdi]
+	mov		[rax + 8], r8
+	mov		[rdi], rax
+
+	jmp		epilogue
+
+fail_malloc:
+	pop		rdi
+	pop		rsi
+	jmp		epilogue
 
 epilogue:
-	add	rsp, 8
-	mov	rsp, rbp
-	pop	rbp
+	add		rsp, 16
+	mov		rsp, rbp
+	pop		rbp
 	ret
