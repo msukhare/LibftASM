@@ -1,47 +1,34 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    ft_list_push_front.s                               :+:      :+:    :+:    #
+#    ft_list_remove_if.s                                :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: msukhare <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/01/29 14:34:35 by msukhare          #+#    #+#              #
-#    Updated: 2020/01/29 16:50:41 by msukhare         ###   ########.fr        #
+#    Created: 2020/01/29 16:41:34 by msukhare          #+#    #+#              #
+#    Updated: 2020/01/29 16:50:40 by msukhare         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-global		_ft_list_push_front
-extern		_malloc
+global		_ft_list_remove_if
 
 section		.text
 
-_ft_list_push_front:
+_ft_list_remove_if:
 	push	rbp
 	mov	rbp, rsp
-	sub	rsp, 16
-	push	rsi
-	push	rdi
+
 	test	rdi, rdi
 	jz	epilogue
-	mov	rdi, 16
-	call	_malloc
-	test	rax, rax
-	jz	fail_malloc
-	pop	rdi
-	pop	rsi
-	mov	[rax], rsi
-	mov	r8, [rdi]
-	mov	[rax + 8], r8
-	mov	[rdi], rax
-	jmp	epilogue
+	test	rsi, rsi
+	jz	epilogue
+	test	rdx, rdx
+	jz	epilogue
 
-fail_malloc:
-	pop		rdi
-	pop		rsi
-	jmp		epilogue
+	mov	r8, [rdi]
+	mov	r9, 0
 
 epilogue:
-	add		rsp, 16
 	mov		rsp, rbp
 	pop		rbp
 	ret
